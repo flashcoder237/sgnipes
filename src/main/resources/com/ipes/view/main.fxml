@@ -3,8 +3,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
 
 <BorderPane xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" 
       fx:controller="com.ipes.controller.MainController">
@@ -14,121 +12,37 @@
         <VBox>
             <MenuBar>
                 <Menu text="%menu.file">
-                    <MenuItem text="%menu.file.export" onAction="#handleExportData">
-                        <graphic>
-                            <ImageView fitHeight="16" fitWidth="16">
-                                <Image url="@/com/ipes/images/export.png" />
-                            </ImageView>
-                        </graphic>
-                    </MenuItem>
-                    <MenuItem text="%menu.file.import" onAction="#handleImportData">
-                        <graphic>
-                            <ImageView fitHeight="16" fitWidth="16">
-                                <Image url="@/com/ipes/images/import.png" />
-                            </ImageView>
-                        </graphic>
-                    </MenuItem>
+                    <MenuItem text="%menu.file.export" onAction="#handleExportData" />
+                    <MenuItem text="%menu.file.import" onAction="#handleImportData" />
                     <SeparatorMenuItem />
-                    <MenuItem text="%menu.file.exit" onAction="#handleExit">
-                        <graphic>
-                            <ImageView fitHeight="16" fitWidth="16">
-                                <Image url="@/com/ipes/images/exit.png" />
-                            </ImageView>
-                        </graphic>
-                    </MenuItem>
+                    <MenuItem text="%menu.file.exit" onAction="#handleExit" />
                 </Menu>
                 <Menu text="%menu.edit">
-                    <MenuItem text="%menu.edit.preferences" onAction="#handlePreferences">
-                        <graphic>
-                            <ImageView fitHeight="16" fitWidth="16">
-                                <Image url="@/com/ipes/images/settings.png" />
-                            </ImageView>
-                        </graphic>
-                    </MenuItem>
+                    <MenuItem text="%menu.edit.preferences" onAction="#handlePreferences" />
                 </Menu>
                 <Menu text="%menu.view">
-                    <MenuItem text="%menu.view.refresh" onAction="#handleRefresh">
-                        <graphic>
-                            <ImageView fitHeight="16" fitWidth="16">
-                                <Image url="@/com/ipes/images/refresh.png" />
-                            </ImageView>
-                        </graphic>
-                    </MenuItem>
+                    <MenuItem text="%menu.view.refresh" onAction="#handleRefresh" />
                 </Menu>
                 <Menu text="%menu.help">
-                    <MenuItem text="%menu.help.about" onAction="#handleAbout">
-                        <graphic>
-                            <ImageView fitHeight="16" fitWidth="16">
-                                <Image url="@/com/ipes/images/about.png" />
-                            </ImageView>
-                        </graphic>
-                    </MenuItem>
-                    <MenuItem text="%menu.help.help" onAction="#handleHelp">
-                        <graphic>
-                            <ImageView fitHeight="16" fitWidth="16">
-                                <Image url="@/com/ipes/images/help.png" />
-                            </ImageView>
-                        </graphic>
-                    </MenuItem>
+                    <MenuItem text="%menu.help.about" onAction="#handleAbout" />
+                    <MenuItem text="%menu.help.help" onAction="#handleHelp" />
                 </Menu>
             </MenuBar>
             
             <!-- Barre d'outils -->
             <ToolBar>
-                <Button onAction="#handleHome" tooltipText="Accueil">
-                    <graphic>
-                        <ImageView fitHeight="24" fitWidth="24">
-                            <Image url="@/com/ipes/images/home.png" />
-                        </ImageView>
-                    </graphic>
-                </Button>
+                <Button onAction="#handleHome" text="Accueil" />
                 <Separator orientation="VERTICAL" />
                 
-                <Button onAction="#handleStructure" tooltipText="Structure Pédagogique">
-                    <graphic>
-                        <ImageView fitHeight="24" fitWidth="24">
-                            <Image url="@/com/ipes/images/structure.png" />
-                        </ImageView>
-                    </graphic>
-                </Button>
-                <Button onAction="#handleEtudiants" tooltipText="Gestion des Étudiants">
-                    <graphic>
-                        <ImageView fitHeight="24" fitWidth="24">
-                            <Image url="@/com/ipes/images/students.png" />
-                        </ImageView>
-                    </graphic>
-                </Button>
-                <Button onAction="#handleNotes" tooltipText="Gestion des Notes">
-                    <graphic>
-                        <ImageView fitHeight="24" fitWidth="24">
-                            <Image url="@/com/ipes/images/grades.png" />
-                        </ImageView>
-                    </graphic>
-                </Button>
-                <Button onAction="#handleDocuments" tooltipText="Gestion des Documents">
-                    <graphic>
-                        <ImageView fitHeight="24" fitWidth="24">
-                            <Image url="@/com/ipes/images/documents.png" />
-                        </ImageView>
-                    </graphic>
-                </Button>
+                <Button onAction="#handleStructure" text="Structure" />
+                <Button onAction="#handleEtudiants" text="Étudiants" />
+                <Button onAction="#handleNotes" text="Notes" />
+                <Button onAction="#handleDocuments" text="Documents" />
                 
                 <Separator orientation="VERTICAL" />
                 
-                <Button onAction="#handleImportNotes" tooltipText="Importer des Notes">
-                    <graphic>
-                        <ImageView fitHeight="24" fitWidth="24">
-                            <Image url="@/com/ipes/images/import_notes.png" />
-                        </ImageView>
-                    </graphic>
-                </Button>
-                <Button onAction="#handleGenererDocuments" tooltipText="Générer des Documents">
-                    <graphic>
-                        <ImageView fitHeight="24" fitWidth="24">
-                            <Image url="@/com/ipes/images/generate_docs.png" />
-                        </ImageView>
-                    </graphic>
-                </Button>
+                <Button onAction="#handleImportNotes" text="Importer Notes" />
+                <Button onAction="#handleGenererDocuments" text="Générer Docs" />
             </ToolBar>
         </VBox>
     </top>
@@ -138,9 +52,6 @@
         <StackPane fx:id="contentPane">
             <!-- Le contenu sera chargé dynamiquement -->
             <VBox alignment="CENTER" spacing="20">
-                <ImageView>
-                    <Image url="@/com/ipes/images/logo_large.png" />
-                </ImageView>
                 <Label styleClass="welcome-text" text="Bienvenue dans le Système de Gestion Académique IPES" />
                 <Label text="Utilisez le menu ou la barre d'outils pour naviguer dans l'application" />
             </VBox>
