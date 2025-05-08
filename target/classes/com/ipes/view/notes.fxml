@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<VBox xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="com.ipes.controller.NotesController" spacing="10">
+   <padding>
+      <Insets top="15.0" right="15.0" bottom="15.0" left="15.0" />
+   </padding>
+   
+   <!-- Titre de la page -->
+   <HBox styleClass="section-header">
+      <Label text="%notes.title" styleClass="title-label" />
+      <padding>
+         <Insets bottom="15.0" />
+      </padding>
+   </HBox>
+   
+   <!-- Filtres de recherche -->
+   <TitledPane text="Critères de recherche" expanded="true">
+      <VBox spacing="10">
+         <GridPane hgap="10" vgap="10">
+            <columnConstraints>
+               <ColumnConstraints prefWidth="150" />
+               <ColumnConstraints prefWidth="200" />
+               <ColumnConstraints prefWidth="150" />
+               <ColumnConstraints prefWidth="200" />
+            </columnConstraints>
+            
+            <!-- Ligne 1 -->
+            <Label text="%inscription.anneeAcademique:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+            <ComboBox fx:id="anneeAcademiqueCombo" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+            
+            <Label text="%student.matricule:" GridPane.rowIndex="0" GridPane.columnIndex="2" />
+            <TextField fx:id="matriculeField" promptText="Rechercher un étudiant..." GridPane.rowIndex="0" GridPane.columnIndex="3" />
+            
+            <!-- Ligne 2 -->
+            <Label text="Cycle:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+            <ComboBox fx:id="cycleCombo" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+            
+            <Label text="%student.nom:" GridPane.rowIndex="1" GridPane.columnIndex="2" />
+            <TextField fx:id="nomField" promptText="Nom de l'étudiant..." GridPane.rowIndex="1" GridPane.columnIndex="3" />
+            
+            <!-- Ligne 3 -->
+            <Label text="%inscription.niveau:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+            <ComboBox fx:id="niveauCombo" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+            
+            <Label text="%student.prenom:" GridPane.rowIndex="2" GridPane.columnIndex="2" />
+            <TextField fx:id="prenomField" promptText="Prénom de l'étudiant..." GridPane.rowIndex="2" GridPane.columnIndex="3" />
+            
+            <!-- Ligne 4 -->
+            <Label text="%inscription.option:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+            <ComboBox fx:id="optionCombo" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+         </GridPane>
+         
+         <HBox spacing="10" alignment="CENTER_RIGHT">
+            <Button text="%button.search" onAction="#handleSearch">
+               <graphic>
+                  <ImageView fitHeight="16" fitWidth="16">
+                     <Image url="@/com/ipes/images/search.png" />
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button text="%button.reset" onAction="#handleReset">
+               <graphic>
+                  <ImageView fitHeight="16" fitWidth="16">
+                     <Image url="@/com/ipes/images/reset.png" />
+                  </ImageView>
+               </graphic>
+            </Button>
+         </HBox>
+      </VBox>
+   </TitledPane>
+   
+   <!-- Tableau des étudiants et notes -->
+   <SplitPane dividerPositions="0.4" VBox.vgrow="ALWAYS">
+      <!-- Liste des étudiants à gauche -->
+      <VBox spacing="5">
+         <Label text="Étudiants" styleClass="subtitle-label" />
+         <TableView fx:id="etudiantsTable" VBox.vgrow="ALWAYS">
+            <columns>
+               <TableColumn fx:id="etudiantMatriculeColumn" text="%student.matricule" prefWidth="100" />
+               <TableColumn fx:id="etudiantNomColumn" text="%student.nom" prefWidth="120" />
+               <TableColumn fx:id="etudiantPrenomColumn" text="%student.prenom" prefWidth="120" />
+            </columns>
+         </TableView>
+      </VBox>
+      
+      <!-- Notes à droite -->
+      <VBox spacing="10">
+         <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Notes de l'étudiant:" />
+            <Label fx:id="etudiantSelectedLabel" text="Aucun étudiant sélectionné" styleClass="highlight-text" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Button text="%notes.add" onAction="#handleAddNote" disable="${controller.etudiantSelected.not}">
+               <graphic>
+                  <ImageView fitHeight="16" fitWidth="16">
+                     <Image url="@/com/ipes/images/add.png" />
+                  </ImageView>
+               </graphic>
+            </Button>
+         </HBox>
+         
+         <TabPane>
+            <Tab text="Notes par EC" closable="false">
+               <VBox spacing="5">
+                  <TableView fx:id="notesTable" VBox.vgrow="ALWAYS">
+                     <columns>
+                        <TableColumn fx:id="noteModuleColumn" text="Module" prefWidth="120" />
+                        <TableColumn fx:id="noteUEColumn" text="UE" prefWidth="120" />
+                        <TableColumn fx:id="noteECColumn" text="EC" prefWidth="150" />
+                        <TableColumn fx:id="noteTypeColumn" text="%notes.typeEvaluation" prefWidth="120" />
+                        <TableColumn fx:id="noteValeurColumn" text="%notes.valeur" prefWidth="80" />
+                        <TableColumn fx:id="noteObservationColumn" text="%notes.observation" prefWidth="150" />
+                        <TableColumn fx:id="noteActionsColumn" text="Actions" prefWidth="100" />
+                     </columns>
+                  </TableView>
+               </VBox>
+            </Tab>
+            
+            <Tab text="Récapitulatif" closable="false">
+               <VBox spacing="10">
+                  <HBox alignment="CENTER">
+                     <Label text="Moyenne Générale:" />
+                     <Label fx:id="moyenneGeneraleLabel" text="0.00" styleClass="highlight-text" />
+                  </HBox>
+                  
+                  <TableView fx:id="recapTable" VBox.vgrow="ALWAYS">
+                     <columns>
+                        <TableColumn fx:id="recapUEColumn" text="Unité d'Enseignement" prefWidth="250" />
+                        <TableColumn fx:id="recapCreditsColumn" text="Crédits" prefWidth="80" />
+                        <TableColumn fx:id="recapMoyenneColumn" text="Moyenne" prefWidth="80" />
+                        <TableColumn fx:id="recapResultatColumn" text="Résultat" prefWidth="100" />
+                     </columns>
+                  </TableView>
+               </VBox>
+            </Tab>
+            
+            <Tab text="Statistiques" closable="false">
+               <VBox spacing="10">
+                  <GridPane hgap="10" vgap="5">
+                     <columnConstraints>
+                        <ColumnConstraints prefWidth="200" />
+                        <ColumnConstraints prefWidth="150" />
+                     </columnConstraints>
+                     
+                     <Label text="Nombre d'étudiants:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                     <Label fx:id="statNbEtudiantsLabel" text="0" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                     
+                     <Label text="Nombre d'admis:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                     <Label fx:id="statNbAdmisLabel" text="0" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                     
+                     <Label text="Taux de réussite:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                     <Label fx:id="statTauxReussiteLabel" text="0 %" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                     
+                     <Label text="Moyenne générale de la classe:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+                     <Label fx:id="statMoyenneClasseLabel" text="0.00" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+                  </GridPane>
+                  
+                  <!-- Espace pour un graphique potentiel -->
+                  <Pane fx:id="graphContainer" prefHeight="300" VBox.vgrow="ALWAYS" styleClass="graph-container" />
+                  
+                  <HBox spacing="10" alignment="CENTER">
+                     <Button text="Exporter les statistiques" onAction="#handleExportStats">
+                        <graphic>
+                           <ImageView fitHeight="16" fitWidth="16">
+                              <Image url="@/com/ipes/images/export.png" />
+                           </ImageView>
+                        </graphic>
+                     </Button>
+                  </HBox>
+               </VBox>
+            </Tab>
+         </TabPane>
+      </VBox>
+   </SplitPane>
+   
+   <!-- Dialog pour ajouter/modifier une note -->
+   <fx:define>
+      <Dialog fx:id="noteDialog" title="Saisie d'une note">
+         <dialogPane>
+            <DialogPane>
+               <content>
+                  <GridPane hgap="10" vgap="10">
+                     <padding>
+                        <Insets top="20" right="20" bottom="20" left="20" />
+                     </padding>
+                     <columnConstraints>
+                        <ColumnConstraints prefWidth="150" />
+                        <ColumnConstraints prefWidth="250" />
+                     </columnConstraints>
+                     
+                     <Label text="Étudiant:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                     <Label fx:id="dialogEtudiantLabel" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                     
+                     <Label text="Élément Constitutif:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                     <ComboBox fx:id="dialogECCombo" prefWidth="250" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                     
+                     <Label text="%notes.typeEvaluation:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                     <ComboBox fx:id="dialogTypeEvalCombo" prefWidth="250" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                     
+                     <Label text="%notes.valeur:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+                     <Spinner fx:id="dialogNoteSpinner" min="0" max="20" amountToStepBy="0.25" prefWidth="250" 
+                             GridPane.rowIndex="3" GridPane.columnIndex="1" />
+                     
+                     <Label text="%notes.observation:" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+                     <TextArea fx:id="dialogObservationArea" prefHeight="80" prefWidth="250" 
+                              GridPane.rowIndex="4" GridPane.columnIndex="1" />
+                  </GridPane>
+               </content>
+               <buttonTypes>
+                  <ButtonType fx:constant="OK" />
+                  <ButtonType fx:constant="CANCEL" />
+               </buttonTypes>
+            </DialogPane>
+         </dialogPane>
+      </Dialog>
+   </fx:define>
+</VBox>

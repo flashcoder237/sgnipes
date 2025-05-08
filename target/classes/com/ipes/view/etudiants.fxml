@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<VBox xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="com.ipes.controller.EtudiantsController" spacing="10">
+   <padding>
+      <Insets top="15.0" right="15.0" bottom="15.0" left="15.0" />
+   </padding>
+   
+   <!-- Titre de la page -->
+   <HBox styleClass="section-header">
+      <Label text="%student.title" styleClass="title-label" />
+      <padding>
+         <Insets bottom="15.0" />
+      </padding>
+   </HBox>
+   
+   <!-- Barre de recherche -->
+   <HBox spacing="10" alignment="CENTER_LEFT">
+      <Label text="Rechercher:" />
+      <TextField fx:id="searchField" promptText="Nom, prénom ou matricule..." prefWidth="300" />
+      <Button text="%button.search" onAction="#handleSearch">
+         <graphic>
+            <ImageView fitHeight="16" fitWidth="16">
+               <Image url="@/com/ipes/images/search.png" />
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button text="%button.reset" onAction="#handleReset">
+         <graphic>
+            <ImageView fitHeight="16" fitWidth="16">
+               <Image url="@/com/ipes/images/reset.png" />
+            </ImageView>
+         </graphic>
+      </Button>
+      <Region HBox.hgrow="ALWAYS" />
+      <Button text="%student.add" onAction="#handleAddEtudiant">
+         <graphic>
+            <ImageView fitHeight="16" fitWidth="16">
+               <Image url="@/com/ipes/images/add.png" />
+            </ImageView>
+         </graphic>
+      </Button>
+   </HBox>
+   
+   <!-- SplitPane principal -->
+   <SplitPane dividerPositions="0.6" VBox.vgrow="ALWAYS">
+      <!-- Liste des étudiants à gauche -->
+      <VBox spacing="5">
+         <TableView fx:id="etudiantsTable" VBox.vgrow="ALWAYS">
+            <columns>
+               <TableColumn fx:id="matriculeColumn" text="%student.matricule" prefWidth="100" />
+               <TableColumn fx:id="nomColumn" text="%student.nom" prefWidth="150" />
+               <TableColumn fx:id="prenomColumn" text="%student.prenom" prefWidth="150" />
+               <TableColumn fx:id="dateNaissanceColumn" text="%student.dateNaissance" prefWidth="120" />
+               <TableColumn fx:id="nationaliteColumn" text="%student.nationalite" prefWidth="100" />
+               <TableColumn fx:id="actionsColumn" text="Actions" prefWidth="100" />
+            </columns>
+         </TableView>
+      </VBox>
+      
+      <!-- Détails de l'étudiant à droite -->
+      <VBox spacing="10">
+         <TabPane fx:id="detailsTabPane" VBox.vgrow="ALWAYS">
+            <Tab text="Informations" closable="false">
+               <VBox spacing="10">
+                  <padding>
+                     <Insets top="10.0" right="10.0" bottom="10.0" left="10.0" />
+                  </padding>
+                  
+                  <!-- Photo de l'étudiant -->
+                  <HBox alignment="CENTER">
+                     <ImageView fx:id="photoImageView" fitHeight="150" fitWidth="150" preserveRatio="true">
+                        <Image url="@/com/ipes/images/student_placeholder.png" />
+                     </ImageView>
+                     <Button text="Changer la photo" onAction="#handleChangePhoto" />
+                  </HBox>
+                  
+                  <!-- Informations de l'étudiant -->
+                  <GridPane hgap="10" vgap="10">
+                     <columnConstraints>
+                        <ColumnConstraints prefWidth="130" />
+                        <ColumnConstraints prefWidth="250" />
+                     </columnConstraints>
+                     
+                     <Label text="%student.matricule:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                     <TextField fx:id="matriculeField" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                     
+                     <Label text="%student.nom:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                     <TextField fx:id="nomField" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                     
+                     <Label text="%student.prenom:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                     <TextField fx:id="prenomField" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                     
+                     <Label text="%student.dateNaissance:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+                     <DatePicker fx:id="dateNaissancePicker" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+                     
+                     <Label text="%student.lieuNaissance:" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+                     <TextField fx:id="lieuNaissanceField" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+                     
+                     <Label text="%student.nationalite:" GridPane.rowIndex="5" GridPane.columnIndex="0" />
+                     <ComboBox fx:id="nationaliteCombo" prefWidth="250" GridPane.rowIndex="5" GridPane.columnIndex="1" />
+                     
+                     <Label text="%student.sexe:" GridPane.rowIndex="6" GridPane.columnIndex="0" />
+                     <HBox spacing="20" GridPane.rowIndex="6" GridPane.columnIndex="1">
+                        <RadioButton fx:id="sexeMButton" text="Masculin" />
+                        <RadioButton fx:id="sexeFButton" text="Féminin" />
+                     </HBox>
+                  </GridPane>
+               </VBox>
+            </Tab>
+            
+            <Tab text="Contact" closable="false">
+               <VBox spacing="10">
+                  <padding>
+                     <Insets top="10.0" right="10.0" bottom="10.0" left="10.0" />
+                  </padding>
+                  
+                  <GridPane hgap="10" vgap="10">
+                     <columnConstraints>
+                        <ColumnConstraints prefWidth="130" />
+                        <ColumnConstraints prefWidth="250" />
+                     </columnConstraints>
+                     
+                     <Label text="%student.adresse:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                     <TextArea fx:id="adresseArea" prefHeight="100" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                     
+                     <Label text="%student.telephone:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                     <TextField fx:id="telephoneField" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                     
+                     <Label text="%student.email:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                     <TextField fx:id="emailField" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                  </GridPane>
+               </VBox>
+            </Tab>
+            
+            <Tab text="Inscriptions" closable="false">
+               <VBox spacing="10">
+                  <HBox spacing="10" alignment="CENTER_RIGHT">
+                     <Button text="%inscription.add" onAction="#handleAddInscription">
+                        <graphic>
+                           <ImageView fitHeight="16" fitWidth="16">
+                              <Image url="@/com/ipes/images/add.png" />
+                           </ImageView>
+                        </graphic>
+                     </Button>
+                  </HBox>
+                  
+                  <TableView fx:id="inscriptionsTable" VBox.vgrow="ALWAYS">
+                     <columns>
+                        <TableColumn fx:id="inscriptionAnneeColumn" text="%inscription.anneeAcademique" prefWidth="120" />
+                        <TableColumn fx:id="inscriptionNiveauColumn" text="%inscription.niveau" prefWidth="150" />
+                        <TableColumn fx:id="inscriptionOptionColumn" text="%inscription.option" prefWidth="150" />
+                        <TableColumn fx:id="inscriptionStatutColumn" text="%inscription.statut" prefWidth="100" />
+                        <TableColumn fx:id="inscriptionActionsColumn" text="Actions" prefWidth="100" />
+                     </columns>
+                  </TableView>
+               </VBox>
+            </Tab>
+            
+            <Tab text="Notes" closable="false">
+               <VBox spacing="10">
+                  <HBox spacing="10" alignment="CENTER_LEFT">
+                     <Label text="%inscription.anneeAcademique:" />
+                     <ComboBox fx:id="anneeAcademiqueNotesCombo" prefWidth="150" />
+                     <Button text="Afficher" onAction="#handleAfficherNotes">
+                        <graphic>
+                           <ImageView fitHeight="16" fitWidth="16">
+                              <Image url="@/com/ipes/images/view.png" />
+                           </ImageView>
+                        </graphic>
+                     </Button>
+                  </HBox>
+                  
+                  <TableView fx:id="notesTable" VBox.vgrow="ALWAYS">
+                     <columns>
+                        <TableColumn fx:id="notesUEColumn" text="Unité d'Enseignement" prefWidth="200" />
+                        <TableColumn fx:id="notesECColumn" text="Élément Constitutif" prefWidth="200" />
+                        <TableColumn fx:id="notesValeurColumn" text="%notes.valeur" prefWidth="80" />
+                        <TableColumn fx:id="notesTypeColumn" text="%notes.typeEvaluation" prefWidth="100" />
+                        <TableColumn fx:id="notesActionsColumn" text="Actions" prefWidth="100" />
+                     </columns>
+                  </TableView>
+               </VBox>
+            </Tab>
+            
+            <Tab text="Documents" closable="false">
+               <VBox spacing="10">
+                  <HBox spacing="10" alignment="CENTER_LEFT">
+                     <Label text="%inscription.anneeAcademique:" />
+                     <ComboBox fx:id="anneeAcademiqueDocsCombo" prefWidth="150" />
+                     <Button text="Afficher" onAction="#handleAfficherDocuments">
+                        <graphic>
+                           <ImageView fitHeight="16" fitWidth="16">
+                              <Image url="@/com/ipes/images/view.png" />
+                           </ImageView>
+                        </graphic>
+                     </Button>
+                  </HBox>
+                  
+                  <TableView fx:id="documentsTable" VBox.vgrow="ALWAYS">
+                     <columns>
+                        <TableColumn fx:id="docTypeColumn" text="%document.type" prefWidth="120" />
+                        <TableColumn fx:id="docNumeroColumn" text="%document.number" prefWidth="150" />
+                        <TableColumn fx:id="docDateColumn" text="%document.date" prefWidth="120" />
+                        <TableColumn fx:id="docAuteurColumn" text="%document.author" prefWidth="100" />
+                        <TableColumn fx:id="docActionsColumn" text="Actions" prefWidth="120" />
+                     </columns>
+                  </TableView>
+               </VBox>
+            </Tab>
+         </TabPane>
+         
+         <!-- Boutons de sauvegarde -->
+         <HBox spacing="10" alignment="CENTER_RIGHT">
+            <Button text="%button.save" onAction="#handleSaveEtudiant">
+               <graphic>
+                  <ImageView fitHeight="16" fitWidth="16">
+                     <Image url="@/com/ipes/images/save.png" />
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button text="%button.cancel" onAction="#handleCancelEtudiant">
+               <graphic>
+                  <ImageView fitHeight="16" fitWidth="16">
+                     <Image url="@/com/ipes/images/cancel.png" />
+                  </ImageView>
+               </graphic>
+            </Button>
+         </HBox>
+      </VBox>
+   </SplitPane>
+</VBox>

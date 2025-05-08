@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<VBox xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="com.ipes.controller.StructureController" spacing="10">
+   <padding>
+      <Insets top="15.0" right="15.0" bottom="15.0" left="15.0" />
+   </padding>
+   
+   <!-- Titre de la page -->
+   <HBox styleClass="section-header">
+      <Label text="%structure.title" styleClass="title-label" />
+      <padding>
+         <Insets bottom="15.0" />
+      </padding>
+   </HBox>
+   
+   <!-- Contenu principal avec SplitPane -->
+   <SplitPane dividerPositions="0.25" VBox.vgrow="ALWAYS">
+      <!-- Arborescence de la structure à gauche -->
+      <VBox spacing="10">
+         <Label text="Hiérarchie" styleClass="subtitle-label" />
+         <TreeView fx:id="structureTreeView" VBox.vgrow="ALWAYS" />
+         
+         <HBox spacing="5" alignment="CENTER">
+            <Button text="Ajouter" onAction="#handleAjouter">
+               <graphic>
+                  <ImageView fitHeight="16" fitWidth="16">
+                     <Image url="@/com/ipes/images/add.png" />
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button text="Supprimer" onAction="#handleSupprimer">
+               <graphic>
+                  <ImageView fitHeight="16" fitWidth="16">
+                     <Image url="@/com/ipes/images/delete.png" />
+                  </ImageView>
+               </graphic>
+            </Button>
+         </HBox>
+      </VBox>
+      
+      <!-- Détails à droite, utilisé TabPane pour différentes entités -->
+      <TabPane fx:id="detailsTabPane">
+         <Tab text="%structure.cycle" closable="false">
+            <VBox spacing="10">
+               <padding>
+                  <Insets top="10.0" right="10.0" bottom="10.0" left="10.0" />
+               </padding>
+               
+               <GridPane hgap="10" vgap="10">
+                  <columnConstraints>
+                     <ColumnConstraints prefWidth="120" />
+                     <ColumnConstraints prefWidth="300" />
+                  </columnConstraints>
+                  
+                  <Label text="Code:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                  <TextField fx:id="cycleCodeField" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                  
+                  <Label text="Intitulé:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                  <TextField fx:id="cycleIntituleField" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                  
+                  <Label text="Durée (années):" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                  <Spinner fx:id="cycleDureeSpinner" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+               </GridPane>
+               
+               <HBox spacing="10" alignment="CENTER_RIGHT">
+                  <padding>
+                     <Insets top="15.0" />
+                  </padding>
+                  <Button text="%button.save" onAction="#handleSaveCycle">
+                     <graphic>
+                        <ImageView fitHeight="16" fitWidth="16">
+                           <Image url="@/com/ipes/images/save.png" />
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button text="%button.cancel" onAction="#handleCancelCycle">
+                     <graphic>
+                        <ImageView fitHeight="16" fitWidth="16">
+                           <Image url="@/com/ipes/images/cancel.png" />
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </HBox>
+            </VBox>
+         </Tab>
+         
+         <Tab text="%structure.niveau" closable="false">
+            <VBox spacing="10">
+               <padding>
+                  <Insets top="10.0" right="10.0" bottom="10.0" left="10.0" />
+               </padding>
+               
+               <GridPane hgap="10" vgap="10">
+                  <columnConstraints>
+                     <ColumnConstraints prefWidth="120" />
+                     <ColumnConstraints prefWidth="300" />
+                  </columnConstraints>
+                  
+                  <Label text="Cycle:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                  <ComboBox fx:id="niveauCycleCombo" prefWidth="300" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                  
+                  <Label text="Code:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                  <TextField fx:id="niveauCodeField" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                  
+                  <Label text="Intitulé:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                  <TextField fx:id="niveauIntituleField" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                  
+                  <Label text="Année:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+                  <Spinner fx:id="niveauAnneeSpinner" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+               </GridPane>
+               
+               <HBox spacing="10" alignment="CENTER_RIGHT">
+                  <padding>
+                     <Insets top="15.0" />
+                  </padding>
+                  <Button text="%button.save" onAction="#handleSaveNiveau">
+                     <graphic>
+                        <ImageView fitHeight="16" fitWidth="16">
+                           <Image url="@/com/ipes/images/save.png" />
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button text="%button.cancel" onAction="#handleCancelNiveau">
+                     <graphic>
+                        <ImageView fitHeight="16" fitWidth="16">
+                           <Image url="@/com/ipes/images/cancel.png" />
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </HBox>
+            </VBox>
+         </Tab>
+         
+         <Tab text="%structure.option" closable="false">
+            <VBox spacing="10">
+               <padding>
+                  <Insets top="10.0" right="10.0" bottom="10.0" left="10.0" />
+               </padding>
+               
+               <GridPane hgap="10" vgap="10">
+                  <columnConstraints>
+                     <ColumnConstraints prefWidth="120" />
+                     <ColumnConstraints prefWidth="300" />
+                  </columnConstraints>
+                  
+                  <Label text="Niveau:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                  <ComboBox fx:id="optionNiveauCombo" prefWidth="300" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                  
+                  <Label text="Code:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                  <TextField fx:id="optionCodeField" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                  
+                  <Label text="Intitulé:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                  <TextField fx:id="optionIntituleField" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+               </GridPane>
+               
+               <HBox spacing="10" alignment="CENTER_RIGHT">
+                  <padding>
+                     <Insets top="15.0" />
+                  </padding>
+                  <Button text="%button.save" onAction="#handleSaveOption">
+                     <graphic>
+                        <ImageView fitHeight="16" fitWidth="16">
+                           <Image url="@/com/ipes/images/save.png" />
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button text="%button.cancel" onAction="#handleCancelOption">
+                     <graphic>
+                        <ImageView fitHeight="16" fitWidth="16">
+                           <Image url="@/com/ipes/images/cancel.png" />
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </HBox>
+            </VBox>
+         </Tab>
+         
+         <Tab text="%structure.module" closable="false">
+            <VBox spacing="10">
+               <padding>
+                  <Insets top="10.0" right="10.0" bottom="10.0" left="10.0" />
+               </padding>
+               
+               <GridPane hgap="10" vgap="10">
+                  <columnConstraints>
+                     <ColumnConstraints prefWidth="120" />
+                     <ColumnConstraints prefWidth="300" />
+                  </columnConstraints>
+                  
+                  <Label text="Niveau:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                  <ComboBox fx:id="moduleNiveauCombo" prefWidth="300" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                  
+                  <Label text="Code:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                  <TextField fx:id="moduleCodeField" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                  
+                  <Label text="Intitulé:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                  <TextField fx:id="moduleIntituleField" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                  
+                  <Label text="Coefficient:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+                  <Spinner fx:id="moduleCoeffSpinner" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+               </GridPane>
+               
+               <HBox spacing="10" alignment="CENTER_RIGHT">
+                  <padding>
+                     <Insets top="15.0" />
+                  </padding>
+                  <Button text="%button.save" onAction="#handleSaveModule">
+                     <graphic>
+                        <ImageView fitHeight="16" fitWidth="16">
+                           <Image url="@/com/ipes/images/save.png" />
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button text="%button.cancel" onAction="#handleCancelModule">
+                     <graphic>
+                        <ImageView fitHeight="16" fitWidth="16">
+                           <Image url="@/com/ipes/images/cancel.png" />
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </HBox>
+            </VBox>
+         </Tab>
+         
+         <Tab text="%structure.ue" closable="false">
+            <VBox spacing="10">
+               <padding>
+                  <Insets top="10.0" right="10.0" bottom="10.0" left="10.0" />
+               </padding>
+               
+               <GridPane hgap="10" vgap="10">
+                  <columnConstraints>
+                     <ColumnConstraints prefWidth="120" />
+                     <ColumnConstraints prefWidth="300" />
+                  </columnConstraints>
+                  
+                  <Label text="Module:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                  <ComboBox fx:id="ueModuleCombo" prefWidth="300" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                  
+                  <Label text="Option:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                  <ComboBox fx:id="ueOptionCombo" prefWidth="300" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                  
+                  <Label text="Code:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                  <TextField fx:id="ueCodeField" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                  
+                  <Label text="Intitulé:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+                  <TextField fx:id="ueIntituleField" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+                  
+                  <Label text="Coefficient:" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+                  <Spinner fx:id="ueCoeffSpinner" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+                  
+                  <Label text="Crédits:" GridPane.rowIndex="5" GridPane.columnIndex="0" />
+                  <Spinner fx:id="ueCreditsSpinner" GridPane.rowIndex="5" GridPane.columnIndex="1" />
+               </GridPane>
+               
+               <HBox spacing="10" alignment="CENTER_RIGHT">
+                  <padding>
+                     <Insets top="15.0" />
+                  </padding>
+                  <Button text="%button.save" onAction="#handleSaveUE">
+                     <graphic>
+                        <ImageView fitHeight="16" fitWidth="16">
+                           <Image url="@/com/ipes/images/save.png" />
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button text="%button.cancel" onAction="#handleCancelUE">
+                     <graphic>
+                        <ImageView fitHeight="16" fitWidth="16">
+                           <Image url="@/com/ipes/images/cancel.png" />
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </HBox>
+            </VBox>
+         </Tab>
+         
+         <Tab text="%structure.ec" closable="false">
+            <VBox spacing="10">
+               <padding>
+                  <Insets top="10.0" right="10.0" bottom="10.0" left="10.0" />
+               </padding>
+               
+               <GridPane hgap="10" vgap="10">
+                  <columnConstraints>
+                     <ColumnConstraints prefWidth="120" />
+                     <ColumnConstraints prefWidth="300" />
+                  </columnConstraints>
+                  
+                  <Label text="Unité d'Enseignement:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                  <ComboBox fx:id="ecUECombo" prefWidth="300" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                  
+                  <Label text="Code:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                  <TextField fx:id="ecCodeField" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                  
+                  <Label text="Intitulé:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                  <TextField fx:id="ecIntituleField" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                  
+                  <Label text="Coefficient:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+                  <Spinner fx:id="ecCoeffSpinner" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+                  
+                  <Label text="Volume Horaire:" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+                  <Spinner fx:id="ecVolumeHoraireSpinner" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+               </GridPane>
+               
+               <HBox spacing="10" alignment="CENTER_RIGHT">
+                  <padding>
+                     <Insets top="15.0" />
+                  </padding>
+                  <Button text="%button.save" onAction="#handleSaveEC">
+                     <graphic>
+                        <ImageView fitHeight="16" fitWidth="16">
+                           <Image url="@/com/ipes/images/save.png" />
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button text="%button.cancel" onAction="#handleCancelEC">
+                     <graphic>
+                        <ImageView fitHeight="16" fitWidth="16">
+                           <Image url="@/com/ipes/images/cancel.png" />
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </HBox>
+            </VBox>
+         </Tab>
+      </TabPane>
+   </SplitPane>
+</VBox>

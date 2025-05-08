@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<VBox xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="com.ipes.controller.DocumentsController" spacing="10">
+   <padding>
+      <Insets top="15.0" right="15.0" bottom="15.0" left="15.0" />
+   </padding>
+   
+   <!-- Titre de la page -->
+   <HBox styleClass="section-header">
+      <Label text="%document.title" styleClass="title-label" />
+      <padding>
+         <Insets bottom="15.0" />
+      </padding>
+   </HBox>
+   
+   <!-- Contenu principal avec TabPane -->
+   <TabPane tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+      <!-- Onglet pour les modèles de documents -->
+      <Tab text="Modèles de documents">
+         <VBox spacing="10">
+            <HBox spacing="10" alignment="CENTER_LEFT">
+               <Label text="Type de document:" />
+               <ComboBox fx:id="typeModelesCombo" prefWidth="200" />
+               <Region HBox.hgrow="ALWAYS" />
+               <Button text="Nouveau modèle" onAction="#handleNouveauModele">
+                  <graphic>
+                     <ImageView fitHeight="16" fitWidth="16">
+                        <Image url="@/com/ipes/images/add.png" />
+                     </ImageView>
+                  </graphic>
+               </Button>
+            </HBox>
+            
+            <SplitPane dividerPositions="0.3" VBox.vgrow="ALWAYS">
+               <!-- Liste des modèles à gauche -->
+               <VBox spacing="5">
+                  <ListView fx:id="modelesListView" VBox.vgrow="ALWAYS" />
+               </VBox>
+               
+               <!-- Détails du modèle à droite -->
+               <VBox spacing="10">
+                  <GridPane hgap="10" vgap="10">
+                     <columnConstraints>
+                        <ColumnConstraints prefWidth="120" />
+                        <ColumnConstraints prefWidth="300" hgrow="ALWAYS" />
+                     </columnConstraints>
+                     
+                     <Label text="Nom:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                     <TextField fx:id="nomModeleField" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                     
+                     <Label text="Type:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                     <ComboBox fx:id="typeDetailCombo" prefWidth="300" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                     
+                     <Label text="Actif:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                     <CheckBox fx:id="actifCheckBox" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                     
+                     <Label text="Logo:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+                     <HBox spacing="10" alignment="CENTER_LEFT" GridPane.rowIndex="3" GridPane.columnIndex="1">
+                        <ImageView fx:id="logoImageView" fitHeight="50" fitWidth="120" preserveRatio="true" />
+                        <Button text="Changer" onAction="#handleChangerLogo" />
+                     </HBox>
+                     
+                     <Label text="Contenu:" GridPane.rowIndex="4" GridPane.columnIndex="0" GridPane.valignment="TOP" />
+                     <VBox GridPane.rowIndex="4" GridPane.columnIndex="1">
+                        <Label text="Template du document (format XML/JSON)" />
+                        <TextArea fx:id="contenuModeleArea" prefHeight="250" wrapText="true" VBox.vgrow="ALWAYS" />
+                     </VBox>
+                  </GridPane>
+                  
+                  <HBox spacing="10" alignment="CENTER_RIGHT">
+                     <Button text="%button.save" onAction="#handleSaveModele">
+                        <graphic>
+                           <ImageView fitHeight="16" fitWidth="16">
+                              <Image url="@/com/ipes/images/save.png" />
+                           </ImageView>
+                        </graphic>
+                     </Button>
+                     <Button text="%button.cancel" onAction="#handleCancelModele">
+                        <graphic>
+                           <ImageView fitHeight="16" fitWidth="16">
+                              <Image url="@/com/ipes/images/cancel.png" />
+                           </ImageView>
+                        </graphic>
+                     </Button>
+                     <Button text="Aperçu" onAction="#handleApercuModele">
+                        <graphic>
+                           <ImageView fitHeight="16" fitWidth="16">
+                              <Image url="@/com/ipes/images/preview.png" />
+                           </ImageView>
+                        </graphic>
+                     </Button>
+                  </HBox>
+               </VBox>
+            </SplitPane>
+         </VBox>
+      </Tab>
+      
+      <!-- Onglet pour la liste des documents générés -->
+      <Tab text="Documents générés">
+         <VBox spacing="10">
+            <!-- Filtres de recherche -->
+            <HBox spacing="10" alignment="CENTER_LEFT">
+               <Label text="Type de document:" />
+               <ComboBox fx:id="typeDocsCombo" prefWidth="150" />
+               
+               <Label text="%inscription.anneeAcademique:" />
+               <ComboBox fx:id="anneeDocsCombo" prefWidth="150" />
+               
+               <Label text="Étudiant:" />
+               <TextField fx:id="etudiantField" prefWidth="200" promptText="Matricule, nom ou prénom..." />
+               
+               <Button text="%button.search" onAction="#handleSearchDocuments">
+                  <graphic>
+                     <ImageView fitHeight="16" fitWidth="16">
+                        <Image url="@/com/ipes/images/search.png" />
+                     </ImageView>
+                  </graphic>
+               </Button>
+               <Button text="%button.reset" onAction="#handleResetDocuments">
+                  <graphic>
+                     <ImageView fitHeight="16" fitWidth="16">
+                        <Image url="@/com/ipes/images/reset.png" />
+                     </ImageView>
+                  </graphic>
+               </Button>
+            </HBox>
+            
+            <!-- Tableau des documents -->
+            <TableView fx:id="documentsTable" VBox.vgrow="ALWAYS">
+               <columns>
+                  <TableColumn fx:id="docTypeColumn" text="%document.type" prefWidth="120" />
+                  <TableColumn fx:id="docNumeroColumn" text="%document.number" prefWidth="120" />
+                  <TableColumn fx:id="docDateColumn" text="%document.date" prefWidth="100" />
+                  <TableColumn fx:id="docEtudiantColumn" text="Étudiant" prefWidth="200" />
+                  <TableColumn fx:id="docNiveauColumn" text="%inscription.niveau" prefWidth="120" />
+                  <TableColumn fx:id="docOptColumn" text="%inscription.option" prefWidth="120" />
+                  <TableColumn fx:id="docActionsColumn" text="Actions" prefWidth="150" />
+               </columns>
+            </TableView>
+            
+            <!-- Statistiques et boutons -->
+            <HBox spacing="20" alignment="CENTER_LEFT">
+               <Label text="Total des documents:" />
+               <Label fx:id="totalDocsLabel" text="0" styleClass="highlight-text" />
+               
+               <Region HBox.hgrow="ALWAYS" />
+               
+               <Button text="Générer des documents" onAction="#handleGenererDocuments">
+                  <graphic>
+                     <ImageView fitHeight="16" fitWidth="16">
+                        <Image url="@/com/ipes/images/generate.png" />
+                     </ImageView>
+                  </graphic>
+               </Button>
+               <Button text="Exporter la liste" onAction="#handleExportList">
+                  <graphic>
+                     <ImageView fitHeight="16" fitWidth="16">
+                        <Image url="@/com/ipes/images/export.png" />
+                     </ImageView>
+                  </graphic>
+               </Button>
+            </HBox>
+         </VBox>
+      </Tab>
+      
+      <!-- Onglet pour les configurations d'importation -->
+      <Tab text="Configurations d'importation">
+         <VBox spacing="10">
+            <HBox spacing="10" alignment="CENTER_LEFT">
+               <Label text="%inscription.niveau:" />
+               <ComboBox fx:id="niveauConfigCombo" prefWidth="200" />
+               
+               <Label text="%inscription.option:" />
+               <ComboBox fx:id="optionConfigCombo" prefWidth="200" />
+               
+               <Region HBox.hgrow="ALWAYS" />
+               
+               <Button text="Nouvelle configuration" onAction="#handleNouvelleConfig">
+                  <graphic>
+                     <ImageView fitHeight="16" fitWidth="16">
+                        <Image url="@/com/ipes/images/add.png" />
+                     </ImageView>
+                  </graphic>
+               </Button>
+            </HBox>
+            
+            <SplitPane dividerPositions="0.3" VBox.vgrow="ALWAYS">
+               <!-- Liste des configurations à gauche -->
+               <VBox spacing="5">
+                  <ListView fx:id="configsListView" VBox.vgrow="ALWAYS" />
+               </VBox>
+               
+               <!-- Détails de la configuration à droite -->
+               <VBox spacing="10">
+                  <GridPane hgap="10" vgap="10">
+                     <columnConstraints>
+                        <ColumnConstraints prefWidth="120" />
+                        <ColumnConstraints prefWidth="300" hgrow="ALWAYS" />
+                     </columnConstraints>
+                     
+                     <Label text="Nom:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                     <TextField fx:id="nomConfigField" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                     
+                     <Label text="Description:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                     <TextField fx:id="descriptionConfigField" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                     
+                     <Label text="%inscription.niveau:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                     <ComboBox fx:id="niveauDetailConfigCombo" prefWidth="300" 
+                              GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                     
+                     <Label text="%inscription.option:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+                     <ComboBox fx:id="optionDetailConfigCombo" prefWidth="300" 
+                              GridPane.rowIndex="3" GridPane.columnIndex="1" />
+                  </GridPane>
+                  
+                  <!-- Tableau des mappings -->
+                  <Label text="Mappings:" styleClass="subtitle-label" />
+                  <TableView fx:id="mappingsTable" VBox.vgrow="ALWAYS">
+                     <columns>
+                        <TableColumn fx:id="indexColonneColumn" text="Index" prefWidth="80" />
+                        <TableColumn fx:id="nomColonneColumn" text="Nom de colonne" prefWidth="150" />
+                        <TableColumn fx:id="ecMappingColumn" text="Élément Constitutif" prefWidth="250" />
+                        <TableColumn fx:id="mappingActionsColumn" text="Actions" prefWidth="100" />
+                     </columns>
+                  </TableView>
+                  
+                  <HBox spacing="10" alignment="CENTER_RIGHT">
+                     <Button text="Ajouter un mapping" onAction="#handleAddMapping">
+                        <graphic>
+                           <ImageView fitHeight="16" fitWidth="16">
+                              <Image url="@/com/ipes/images/add.png" />
+                           </ImageView>
+                        </graphic>
+                     </Button>
+                     <Button text="%button.save" onAction="#handleSaveConfig">
+                        <graphic>
+                           <ImageView fitHeight="16" fitWidth="16">
+                              <Image url="@/com/ipes/images/save.png" />
+                           </ImageView>
+                        </graphic>
+                     </Button>
+                     <Button text="%button.cancel" onAction="#handleCancelConfig">
+                        <graphic>
+                           <ImageView fitHeight="16" fitWidth="16">
+                              <Image url="@/com/ipes/images/cancel.png" />
+                           </ImageView>
+                        </graphic>
+                     </Button>
+                  </HBox>
+               </VBox>
+            </SplitPane>
+         </VBox>
+      </Tab>
+   </TabPane>
+</VBox>

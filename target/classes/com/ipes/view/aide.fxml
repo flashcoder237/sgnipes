@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.web.WebView?>
+
+<VBox xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="com.ipes.controller.AideController" spacing="10">
+   <padding>
+      <Insets top="15.0" right="15.0" bottom="15.0" left="15.0" />
+   </padding>
+   
+   <!-- Titre de la page -->
+   <HBox styleClass="section-header">
+      <Label text="%menu.help.help" styleClass="title-label" />
+      <padding>
+         <Insets bottom="15.0" />
+      </padding>
+   </HBox>
+   
+   <!-- Contenu principal avec SplitPane -->
+   <SplitPane dividerPositions="0.25" VBox.vgrow="ALWAYS">
+      <!-- Menu d'aide à gauche -->
+      <VBox spacing="10">
+         <Label text="Sujets d'aide" styleClass="subtitle-label" />
+         
+         <!-- Arborescence des sujets d'aide -->
+         <TreeView fx:id="aideTreeView" VBox.vgrow="ALWAYS" />
+         
+         <!-- Zone de recherche -->
+         <VBox spacing="5">
+            <Label text="Rechercher" />
+            <HBox spacing="5">
+               <TextField fx:id="searchField" promptText="Mot-clé..." HBox.hgrow="ALWAYS" />
+               <Button text="Rechercher" onAction="#handleSearch">
+                  <graphic>
+                     <ImageView fitHeight="16" fitWidth="16">
+                        <Image url="@/com/ipes/images/search.png" />
+                     </ImageView>
+                  </graphic>
+               </Button>
+            </HBox>
+         </VBox>
+      </VBox>
+      
+      <!-- Contenu d'aide à droite -->
+      <VBox spacing="10">
+         <!-- Barre de navigation -->
+         <HBox spacing="10" alignment="CENTER_LEFT">
+            <Button onAction="#handleBack">
+               <graphic>
+                  <ImageView fitHeight="16" fitWidth="16">
+                     <Image url="@/com/ipes/images/back.png" />
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button onAction="#handleForward">
+               <graphic>
+                  <ImageView fitHeight="16" fitWidth="16">
+                     <Image url="@/com/ipes/images/forward.png" />
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button onAction="#handleHome">
+               <graphic>
+                  <ImageView fitHeight="16" fitWidth="16">
+                     <Image url="@/com/ipes/images/home.png" />
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Region HBox.hgrow="ALWAYS" />
+            <Button text="Imprimer" onAction="#handlePrint">
+               <graphic>
+                  <ImageView fitHeight="16" fitWidth="16">
+                     <Image url="@/com/ipes/images/print.png" />
+                  </ImageView>
+               </graphic>
+            </Button>
+         </HBox>
+         
+         <!-- Titre de la page d'aide -->
+         <Label fx:id="aideTitleLabel" text="Bienvenue dans l'aide du Système de Gestion Académique IPES" 
+               styleClass="help-title-label" />
+         
+         <!-- Contenu de l'aide (WebView pour HTML formaté) -->
+         <WebView fx:id="aideWebView" VBox.vgrow="ALWAYS" />
+         
+         <!-- Boutons de navigation rapide -->
+         <HBox spacing="15" alignment="CENTER">
+            <padding>
+               <Insets top="10.0" bottom="5.0" />
+            </padding>
+            
+            <VBox alignment="CENTER" styleClass="help-quicklink" onMouseClicked="#handleShowGuideDebutant">
+               <ImageView fitHeight="32" fitWidth="32">
+                  <Image url="@/com/ipes/images/guide.png" />
+               </ImageView>
+               <Label text="Guide débutant" />
+            </VBox>
+            
+            <VBox alignment="CENTER" styleClass="help-quicklink" onMouseClicked="#handleShowFAQ">
+               <ImageView fitHeight="32" fitWidth="32">
+                  <Image url="@/com/ipes/images/faq.png" />
+               </ImageView>
+               <Label text="FAQ" />
+            </VBox>
+            
+            <VBox alignment="CENTER" styleClass="help-quicklink" onMouseClicked="#handleShowStructure">
+               <ImageView fitHeight="32" fitWidth="32">
+                  <Image url="@/com/ipes/images/structure_help.png" />
+               </ImageView>
+               <Label text="Structure pédagogique" />
+            </VBox>
+            
+            <VBox alignment="CENTER" styleClass="help-quicklink" onMouseClicked="#handleShowEtudiants">
+               <ImageView fitHeight="32" fitWidth="32">
+                  <Image url="@/com/ipes/images/students_help.png" />
+               </ImageView>
+               <Label text="Gestion des étudiants" />
+            </VBox>
+            
+            <VBox alignment="CENTER" styleClass="help-quicklink" onMouseClicked="#handleShowNotes">
+               <ImageView fitHeight="32" fitWidth="32">
+                  <Image url="@/com/ipes/images/grades_help.png" />
+               </ImageView>
+               <Label text="Gestion des notes" />
+            </VBox>
+            
+            <VBox alignment="CENTER" styleClass="help-quicklink" onMouseClicked="#handleShowDocuments">
+               <ImageView fitHeight="32" fitWidth="32">
+                  <Image url="@/com/ipes/images/documents_help.png" />
+               </ImageView>
+               <Label text="Gestion des documents" />
+            </VBox>
+         </HBox>
+      </VBox>
+   </SplitPane>
+   
+   <!-- Barre de statut pour les informations complémentaires -->
+   <HBox spacing="10" alignment="CENTER_LEFT" styleClass="status-bar">
+      <padding>
+         <Insets top="5" right="10" bottom="5" left="10" />
+      </padding>
+      <Label text="Besoin d'aide supplémentaire ?" />
+      <Hyperlink onAction="#handleContactSupport" text="Contacter le support" />
+      <Region HBox.hgrow="ALWAYS" />
+      <Label text="Version 1.0" />
+   </HBox>
+</VBox>
