@@ -1,0 +1,122 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<VBox xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="com.ipes.controller.GenererDocumentsController" spacing="10">
+   <padding>
+      <Insets top="15.0" right="15.0" bottom="15.0" left="15.0" />
+   </padding>
+   
+   <!-- Titre de la page -->
+   <HBox styleClass="section-header">
+      <Label text="Génération des Documents Académiques" styleClass="title-label" />
+      <padding>
+         <Insets bottom="15.0" />
+      </padding>
+   </HBox>
+   
+   <!-- Filtres de recherche -->
+   <TitledPane text="Critères de sélection" expanded="true">
+      <VBox spacing="10">
+         <GridPane hgap="10" vgap="10">
+            <columnConstraints>
+               <ColumnConstraints prefWidth="150" />
+               <ColumnConstraints prefWidth="200" />
+               <ColumnConstraints prefWidth="150" />
+               <ColumnConstraints prefWidth="200" />
+            </columnConstraints>
+            
+            <!-- Ligne 1 -->
+            <Label text="Année Académique:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+            <ComboBox fx:id="anneeAcademiqueCombo" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+            
+            <Label text="Type de Document:" GridPane.rowIndex="0" GridPane.columnIndex="2" />
+            <ComboBox fx:id="typeDocumentCombo" GridPane.rowIndex="0" GridPane.columnIndex="3" />
+            
+            <!-- Ligne 2 -->
+            <Label text="Cycle:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+            <ComboBox fx:id="cycleCombo" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+            
+            <Label text="Modèle de Document:" GridPane.rowIndex="1" GridPane.columnIndex="2" />
+            <ComboBox fx:id="modeleDocumentCombo" GridPane.rowIndex="1" GridPane.columnIndex="3" />
+            
+            <!-- Ligne 3 -->
+            <Label text="Niveau:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+            <ComboBox fx:id="niveauCombo" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+            
+            <!-- Ligne 4 -->
+            <Label text="Option:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+            <ComboBox fx:id="optionCombo" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+         </GridPane>
+         
+         <HBox spacing="10" alignment="CENTER_RIGHT">
+            <Button text="Rechercher" onAction="#handleRechercher">
+               <graphic>
+                  <ImageView fitHeight="16" fitWidth="16">
+                     <Image url="@/com/ipes/images/search.png" />
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button text="Réinitialiser" onAction="#handleReinitialiser">
+               <graphic>
+                  <ImageView fitHeight="16" fitWidth="16">
+                     <Image url="@/com/ipes/images/reset.png" />
+                  </ImageView>
+               </graphic>
+            </Button>
+         </HBox>
+      </VBox>
+   </TitledPane>
+   
+   <!-- Liste des étudiants -->
+   <TitledPane text="Liste des étudiants" expanded="true" VBox.vgrow="ALWAYS">
+      <VBox spacing="10">
+         <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Filtrer:" />
+            <TextField fx:id="filtreTextField" promptText="Nom, prénom ou matricule..." prefWidth="300" />
+            <CheckBox fx:id="selectionnerToutCheckBox" text="Sélectionner tout" onAction="#handleSelectionnerTout" />
+            <Label text="Étudiants sélectionnés:" />
+            <Label fx:id="nbSelectionLabel" text="0" />
+         </HBox>
+         
+         <TableView fx:id="etudiantsTable" VBox.vgrow="ALWAYS">
+            <columns>
+               <TableColumn fx:id="selectionColumn" text="" prefWidth="50" />
+               <TableColumn fx:id="matriculeColumn" text="Matricule" prefWidth="100" />
+               <TableColumn fx:id="nomColumn" text="Nom" prefWidth="150" />
+               <TableColumn fx:id="prenomColumn" text="Prénom" prefWidth="150" />
+               <TableColumn fx:id="dateNaissanceColumn" text="Date de naissance" prefWidth="120" />
+               <TableColumn fx:id="moyenneColumn" text="Moyenne" prefWidth="80" />
+               <TableColumn fx:id="statutColumn" text="Statut" prefWidth="100" />
+            </columns>
+         </TableView>
+      </VBox>
+   </TitledPane>
+   
+   <!-- Boutons d'action -->
+   <HBox spacing="10" alignment="CENTER_RIGHT">
+      <Button text="Aperçu" onAction="#handleApercu" disable="${controller.nbSelectionnes == 0}">
+         <graphic>
+            <ImageView fitHeight="16" fitWidth="16">
+               <Image url="@/com/ipes/images/preview.png" />
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button text="Générer les documents" onAction="#handleGenerer" disable="${controller.nbSelectionnes == 0}">
+         <graphic>
+            <ImageView fitHeight="16" fitWidth="16">
+               <Image url="@/com/ipes/images/generate.png" />
+            </ImageView>
+         </graphic>
+      </Button>
+   </HBox>
+   
+   <!-- Barre de progression -->
+   <ProgressBar fx:id="progressBar" progress="0.0" visible="false" prefWidth="Infinity" />
+   <Label fx:id="progressLabel" visible="false" />
+</VBox>

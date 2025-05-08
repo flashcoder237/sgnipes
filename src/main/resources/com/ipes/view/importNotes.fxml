@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<VBox xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="com.ipes.controller.ImportNotesController" spacing="10">
+   <padding>
+      <Insets top="15.0" right="15.0" bottom="15.0" left="15.0" />
+   </padding>
+   
+   <!-- Titre de la page -->
+   <HBox styleClass="section-header">
+      <Label text="Importation des Notes" styleClass="title-label" />
+      <padding>
+         <Insets bottom="15.0" />
+      </padding>
+   </HBox>
+   
+   <!-- Sélection du fichier -->
+   <TitledPane text="Sélection du fichier" expanded="true">
+      <GridPane hgap="10" vgap="10">
+         <columnConstraints>
+            <ColumnConstraints prefWidth="150" />
+            <ColumnConstraints prefWidth="400" hgrow="ALWAYS" />
+            <ColumnConstraints prefWidth="100" />
+         </columnConstraints>
+         
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
+         
+         <Label text="Fichier CSV:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+         <TextField fx:id="fichierTextField" editable="false" promptText="Sélectionner un fichier CSV..." 
+                   GridPane.rowIndex="0" GridPane.columnIndex="1" />
+         <Button text="Parcourir..." onAction="#handleParcourir" GridPane.rowIndex="0" GridPane.columnIndex="2" />
+         
+         <Label text="Aperçu:" GridPane.rowIndex="1" GridPane.columnIndex="0" GridPane.valignment="TOP" />
+         <TextArea fx:id="aperçuTextArea" editable="false" prefHeight="150"
+                  GridPane.rowIndex="1" GridPane.columnIndex="1" GridPane.columnSpan="2" />
+      </GridPane>
+   </TitledPane>
+   
+   <!-- Configuration d'importation -->
+   <TitledPane text="Configuration d'importation" expanded="true">
+      <VBox spacing="10">
+         <GridPane hgap="10" vgap="10">
+            <columnConstraints>
+               <ColumnConstraints prefWidth="150" />
+               <ColumnConstraints prefWidth="200" />
+               <ColumnConstraints prefWidth="150" />
+               <ColumnConstraints prefWidth="200" />
+            </columnConstraints>
+            
+            <!-- Ligne 1 -->
+            <Label text="Année Académique:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+            <ComboBox fx:id="anneeAcademiqueCombo" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+            
+            <Label text="Configuration:" GridPane.rowIndex="0" GridPane.columnIndex="2" />
+            <ComboBox fx:id="configCombo" GridPane.rowIndex="0" GridPane.columnIndex="3" />
+            
+            <!-- Ligne 2 -->
+            <Label text="Cycle:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+            <ComboBox fx:id="cycleCombo" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+            
+            <Label text="Nom de la configuration:" GridPane.rowIndex="1" GridPane.columnIndex="2" />
+            <TextField fx:id="nomConfigTextField" promptText="Nouvelle configuration..." 
+                      disable="${!controller.nouvelleCfg}" GridPane.rowIndex="1" GridPane.columnIndex="3" />
+            
+            <!-- Ligne 3 -->
+            <Label text="Niveau:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+            <ComboBox fx:id="niveauCombo" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+            
+            <CheckBox fx:id="nouvelleCfgCheckBox" text="Nouvelle configuration" selected="false"
+                     onAction="#handleNouvelleCfg" GridPane.rowIndex="2" GridPane.columnIndex="2" />
+            
+            <!-- Ligne 4 -->
+            <Label text="Option:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+            <ComboBox fx:id="optionCombo" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+         </GridPane>
+      </VBox>
+   </TitledPane>
+   
+   <!-- Mapping des colonnes -->
+   <TitledPane text="Mapping des colonnes" expanded="true" VBox.vgrow="ALWAYS">
+      <VBox spacing="10">
+         <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Colonne Matricule:" />
+            <ComboBox fx:id="colonneMatriculeCombo" promptText="Sélectionner..." prefWidth="200" />
+            <Button text="Détecter automatiquement" onAction="#handleDetection" />
+            <Pane HBox.hgrow="ALWAYS" />
+            <Button text="Réinitialiser" onAction="#handleReinitialiserMapping" />
+         </HBox>
+         
+         <TableView fx:id="mappingTable" VBox.vgrow="ALWAYS">
+            <columns>
+               <TableColumn fx:id="indexColonneColumn" text="Index" prefWidth="80" />
+               <TableColumn fx:id="nomColonneColumn" text="Nom de la colonne" prefWidth="200" />
+               <TableColumn fx:id="elementConstitutifColumn" text="Élément Constitutif" prefWidth="300" />
+               <TableColumn fx:id="actionsColumn" text="Actions" prefWidth="100" />
+            </columns>
+         </TableView>
+      </VBox>
+   </TitledPane>
+   
+   <!-- Boutons d'action -->
+   <HBox spacing="10" alignment="CENTER_RIGHT">
+      <Button text="Enregistrer la configuration" onAction="#handleEnregistrerConfig">
+         <graphic>
+            <ImageView fitHeight="16" fitWidth="16">
+               <Image url="@/com/ipes/images/save.png" />
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button text="Aperçu de l'importation" onAction="#handleAperçuImport" disable="${!controller.fichierValide}">
+         <graphic>
+            <ImageView fitHeight="16" fitWidth="16">
+               <Image url="@/com/ipes/images/preview.png" />
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button text="Importer les notes" onAction="#handleImporter" disable="${!controller.configValide || !controller.fichierValide}">
+         <graphic>
+            <ImageView fitHeight="16" fitWidth="16">
+               <Image url="@/com/ipes/images/import.png" />
+            </ImageView>
+         </graphic>
+      </Button>
+   </HBox>
+   
+   <!-- Barre de progression -->
+   <ProgressBar fx:id="progressBar" progress="0.0" visible="false" prefWidth="Infinity" />
+   <Label fx:id="progressLabel" visible="false" />
+</VBox>
